@@ -18,12 +18,61 @@ logging.basicConfig(
 logger = logging.getLogger("enterprise-rag")
 
 
+async def _auto_seed_initial_document():
+    import asyncio
+    from pathlib import Path
+
+    from app.application.ingest_service import IngestService
+    from app.core.config import get_settings
+    from app.infrastructure.db.session import async_session_maker
+    from app.infrastructure.embeddings.openai_embeddings import OpenAIEmbeddingAdapter
+    from app.infrastructure.vectorstore.pgvector_store import PgVectorStore
+
+    settings = get_settings()
+    if not settings.openai_api_key or "your_openai" in settings.openai_api_key:
+        return
+
+    doc_path = Path("docs/unesco.pdf")
+    if not doc_path.exists():
+        return
+
+    # Breve espera para asegurar que la conexión de BD esté completamente asentada
+    await asyncio.sleep(2)
+
+    try:
+        async with async_session_maker() as session:
+            vstore = PgVectorStore(session)
+            docs = await vstore.get_documents()
+            if not docs:
+                logger.info(
+                    "[Bootstrap] Base de datos vacía detectada. Indexando automáticamente %s...",
+                    doc_path.name,
+                )
+                emb = OpenAIEmbeddingAdapter()
+                svc = IngestService(vector_store=vstore, embedding_provider=emb)
+                with open(doc_path, "rb") as f:
+                    content = f.read()
+                meta = await svc.ingest_pdf(
+                    file_bytes=content, filename="unesco_guia_iagen_educacion.pdf"
+                )
+                logger.info(
+                    "[Bootstrap] Auto-indexación completada: %d páginas, %d chunks.",
+                    meta.total_pages,
+                    meta.total_chunks,
+                )
+    except Exception as e:
+        logger.warning("[Bootstrap] No se pudo completar el auto-seed inicial: %s", e)
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    import asyncio
+
     logger.info("Iniciando Enterprise RAG Assistant...")
     try:
         await init_db()
         logger.info("Base de datos y extensión pgvector inicializadas con éxito.")
+        asyncio.create_task(_auto_seed_initial_document())
     except Exception as e:
         logger.warning(
             "No se pudo conectar a la base de datos al inicio (%s). "
