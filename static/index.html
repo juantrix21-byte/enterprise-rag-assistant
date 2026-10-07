@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enterprise RAG Assistant — CIE LAB</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col font-sans">
+
+  <!-- Header -->
+  <header class="bg-indigo-900 text-white shadow-md">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div>
+        <h1 class="text-xl font-bold tracking-tight">Enterprise RAG Assistant</h1>
+        <p class="text-xs text-indigo-200">CIE LAB — AI Engineering Challenge (Grounding & Traceability)</p>
+      </div>
+      <div class="flex items-center space-x-3 text-xs">
+        <a href="/docs" target="_blank" class="bg-indigo-700 hover:bg-indigo-600 px-3 py-1.5 rounded transition font-medium">
+          Swagger OpenAPI
+        </a>
+        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-200 border border-emerald-400/30">
+          ● Sistema Activo
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-6xl mx-auto px-4 py-6 flex-1 grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+
+    <!-- Panel Izquierdo: Gestión de Documentos y Sesión -->
+    <section class="space-y-6">
+      <!-- Carga de Documentos -->
+      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+        <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-3">1. Ingesta de Documentos PDF</h2>
+        <form id="uploadForm" class="space-y-3">
+          <input type="file" id="pdfFileInput" accept="application/pdf" class="block w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer border border-slate-200 rounded-lg p-1"/>
+          <button type="submit" id="uploadBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-xs py-2 px-4 rounded-lg transition disabled:opacity-50">
+            Cargar e Indexar PDF
+          </button>
+        </form>
+        <div id="uploadStatus" class="mt-2 text-xs"></div>
+
+        <!-- Lista de Documentos Cargados -->
+        <div class="mt-4 border-t border-slate-100 pt-3">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-xs font-semibold text-slate-600">Documentos Indexados</span>
+            <button onclick="loadDocuments()" class="text-[11px] text-indigo-600 hover:underline">Actualizar</button>
+          </div>
+          <ul id="documentsList" class="text-xs space-y-1.5 max-h-36 overflow-y-auto pr-1">
+            <li class="text-slate-400 italic">Cargando documentos...</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Configuración de Sesión -->
+      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3">
+        <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-500">2. Sesión Conversacional</h2>
+        <div>
+          <label class="block text-xs font-medium text-slate-600 mb-1">ID de Sesión:</label>
+          <div class="flex gap-2">
+            <input type="text" id="sessionIdInput" value="demo-cie-lab-1" class="border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs w-full font-mono bg-slate-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500"/>
+            <button onclick="newSession()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 py-1.5 rounded-lg text-xs font-medium transition" title="Nueva sesión aleatoria">Nueva</button>
+          </div>
+        </div>
+        <button onclick="loadHistory()" class="w-full border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs py-2 rounded-lg font-medium transition">
+          Ver Historial de Sesión
+        </button>
+      </div>
+    </section>
+
+    <!-- Panel Derecho: Asistente RAG & Chat -->
+    <section class="md:col-span-2 flex flex-col bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden h-[640px]">
+      <div class="p-4 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
+        <div>
+          <h2 class="text-sm font-semibold text-slate-800">Consultas con Grounding</h2>
+          <p class="text-xs text-slate-500">Respuestas basadas únicamente en el contexto documental</p>
+        </div>
+        <button onclick="clearChat()" class="text-xs text-slate-400 hover:text-slate-600">Limpiar vista</button>
+      </div>
+
+      <!-- Chat History Stream -->
+      <div id="chatStream" class="flex-1 p-4 overflow-y-auto space-y-4 text-sm">
+        <div class="bg-indigo-50/60 border border-indigo-100 text-indigo-900 p-3.5 rounded-lg text-xs leading-relaxed">
+          👋 <strong>Bienvenido al Enterprise RAG Assistant.</strong> Puedes realizar preguntas sobre la <em>Guía para el uso de IA generativa en educación e investigación</em> (UNESCO) o cualquier PDF que cargues en el panel izquierdo. Cada respuesta incluye citas verificables a las páginas originales.
+        </div>
+      </div>
+
+      <!-- Input Bar -->
+      <div class="p-3 border-t border-slate-200 bg-white">
+        <form id="askForm" class="flex gap-2">
+          <input type="text" id="questionInput" placeholder="Escribe tu consulta sobre el documento..." required class="flex-1 border border-slate-200 rounded-lg px-3.5 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+          <button type="submit" id="askBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-xs px-5 py-2 rounded-lg transition disabled:opacity-50">
+            Consultar
+          </button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="text-center py-3 text-[11px] text-slate-400 border-t border-slate-200">
+    Desafío Técnico AI Engineer — CIE LAB &copy; 2026
+  </footer>
+
+  <script>
+    const sessionIdInput = document.getElementById('sessionIdInput');
+    const chatStream = document.getElementById('chatStream');
+    const uploadForm = document.getElementById('uploadForm');
+    const askForm = document.getElementById('askForm');
+    const documentsList = document.getElementById('documentsList');
+
+    function newSession() {
+      sessionIdInput.value = 'sesion-' + Math.random().toString(36).substring(2, 8);
+      clearChat();
+    }
+
+    function clearChat() {
+      chatStream.innerHTML = '';
+    }
+
+    async function loadDocuments() {
+      try {
+        const res = await fetch('/documents');
+        const data = await res.json();
+        if (data.length === 0) {
+          documentsList.innerHTML = '<li class="text-slate-400 italic">No hay documentos indexados aún.</li>';
+          return;
+        }
+        documentsList.innerHTML = data.map(d => `
+          <li class="bg-slate-50 p-2 rounded border border-slate-100">
+            <div class="font-medium text-slate-700 truncate" title="${d.filename}">📄 ${d.filename}</div>
+            <div class="text-[10px] text-slate-400 mt-0.5">${d.total_pages} páginas · ${d.total_chunks} fragmentos</div>
+          </li>
+        `).join('');
+      } catch (e) {
+        documentsList.innerHTML = '<li class="text-red-400">Error cargando documentos.</li>';
+      }
+    }
+
+    uploadForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fileInput = document.getElementById('pdfFileInput');
+      const statusEl = document.getElementById('uploadStatus');
+      const btn = document.getElementById('uploadBtn');
+
+      if (!fileInput.files[0]) return;
+      const formData = new FormData();
+      formData.append('file', fileInput.files[0]);
+
+      btn.disabled = true;
+      btn.innerText = 'Indexando documento (vectorizando)...';
+      statusEl.innerHTML = '<span class="text-indigo-600">Extrayendo texto y calculando embeddings...</span>';
+
+      try {
+        const res = await fetch('/documents', { method: 'POST', body: formData });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Error en la subida');
+        statusEl.innerHTML = `<span class="text-emerald-600 font-medium">✓ ${data.message} (${data.document.total_chunks} chunks)</span>`;
+        fileInput.value = '';
+        loadDocuments();
+      } catch (err) {
+        statusEl.innerHTML = `<span class="text-rose-600">✗ ${err.message}</span>`;
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Cargar e Indexar PDF';
+      }
+    });
+
+    askForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const qInput = document.getElementById('questionInput');
+      const question = qInput.value.trim();
+      const sessionId = sessionIdInput.value.trim();
+      const askBtn = document.getElementById('askBtn');
+
+      if (!question) return;
+
+      appendUserMessage(question);
+      qInput.value = '';
+      askBtn.disabled = true;
+
+      const loadingId = appendLoadingIndicator();
+
+      try {
+        const res = await fetch('/ask', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ session_id: sessionId, question: question })
+        });
+        const data = await res.json();
+        removeLoading(loadingId);
+
+        if (!res.ok) throw new Error(data.detail || 'Error en la consulta');
+        appendAssistantMessage(data);
+      } catch (err) {
+        removeLoading(loadingId);
+        appendErrorMessage(err.message);
+      } finally {
+        askBtn.disabled = false;
+      }
+    });
+
+    function appendUserMessage(text) {
+      const div = document.createElement('div');
+      div.className = 'flex justify-end';
+      div.innerHTML = `
+        <div class="bg-indigo-600 text-white px-3.5 py-2.5 rounded-2xl rounded-tr-none max-w-[80%] text-xs shadow-sm">
+          ${escapeHtml(text)}
+        </div>
+      `;
+      chatStream.appendChild(div);
+      chatStream.scrollTop = chatStream.scrollHeight;
+    }
+
+    function appendLoadingIndicator() {
+      const id = 'loading-' + Date.now();
+      const div = document.createElement('div');
+      div.id = id;
+      div.className = 'flex justify-start';
+      div.innerHTML = `
+        <div class="bg-slate-100 text-slate-500 px-3 py-2 rounded-2xl rounded-tl-none text-xs flex items-center gap-2">
+          <svg class="animate-spin h-3.5 w-3.5 text-indigo-600" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+          </svg>
+          Recuperando fuentes y procesando respuesta...
+        </div>
+      `;
+      chatStream.appendChild(div);
+      chatStream.scrollTop = chatStream.scrollHeight;
+      return id;
+    }
+
+    function removeLoading(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    }
+
+    function appendAssistantMessage(data) {
+      const div = document.createElement('div');
+      div.className = 'flex justify-start';
+
+      const groundedBadge = data.grounded
+        ? `<span class="bg-emerald-100 text-emerald-800 text-[10px] font-semibold px-2 py-0.5 rounded">Grounded (${data.retrieval_count} fuentes)</span>`
+        : `<span class="bg-amber-100 text-amber-800 text-[10px] font-semibold px-2 py-0.5 rounded">Sin soporte documental suficiente</span>`;
+
+      let sourcesHtml = '';
+      if (data.sources && data.sources.length > 0) {
+        sourcesHtml = `
+          <div class="mt-3 pt-2.5 border-t border-slate-200">
+            <details class="text-[11px] text-slate-600 cursor-pointer">
+              <summary class="font-semibold text-indigo-700 hover:underline">Fuentes y trazabilidad (${data.sources.length})</summary>
+              <div class="mt-2 space-y-1.5 pl-2 border-l-2 border-indigo-200">
+                ${data.sources.map(s => `
+                  <div class="bg-slate-50 p-2 rounded border border-slate-200/60">
+                    <div class="font-semibold text-slate-800">📄 ${escapeHtml(s.document_name)} — Pág. ${s.page_number} <span class="text-slate-400 font-normal">(Similitud: ${(s.similarity_score * 100).toFixed(1)}%)</span></div>
+                    <div class="text-slate-600 text-[10px] mt-0.5 italic">"${escapeHtml(s.snippet)}"</div>
+                  </div>
+                `).join('')}
+              </div>
+            </details>
+          </div>
+        `;
+      }
+
+      div.innerHTML = `
+        <div class="bg-white border border-slate-200 text-slate-800 px-4 py-3 rounded-2xl rounded-tl-none max-w-[85%] text-xs shadow-sm space-y-2">
+          <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-1.5">
+            ${groundedBadge}
+            <span class="text-[10px] text-slate-400 font-mono">${data.latency_ms} ms</span>
+          </div>
+          <div class="whitespace-pre-line leading-relaxed text-slate-800">${escapeHtml(data.answer)}</div>
+          ${sourcesHtml}
+        </div>
+      `;
+      chatStream.appendChild(div);
+      chatStream.scrollTop = chatStream.scrollHeight;
+    }
+
+    function appendErrorMessage(msg) {
+      const div = document.createElement('div');
+      div.className = 'flex justify-start';
+      div.innerHTML = `
+        <div class="bg-rose-50 border border-rose-200 text-rose-700 px-3 py-2 rounded-2xl text-xs">
+          ⚠️ ${escapeHtml(msg)}
+        </div>
+      `;
+      chatStream.appendChild(div);
+      chatStream.scrollTop = chatStream.scrollHeight;
+    }
+
+    async function loadHistory() {
+      const sessionId = sessionIdInput.value.trim();
+      try {
+        const res = await fetch(`/history/${sessionId}`);
+        const data = await res.json();
+        clearChat();
+        if (data.messages.length === 0) {
+          chatStream.innerHTML = `<div class="text-slate-400 text-xs italic">No hay mensajes previos en la sesión ${sessionId}.</div>`;
+          return;
+        }
+        data.messages.forEach(m => {
+          if (m.role === 'user') {
+            appendUserMessage(m.content);
+          } else {
+            appendAssistantMessage({
+              answer: m.content,
+              grounded: m.sources.length > 0,
+              sources: m.sources,
+              retrieval_count: m.sources.length,
+              latency_ms: 0
+            });
+          }
+        });
+      } catch (e) {
+        alert('Error al recuperar historial: ' + e.message);
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    // Inicializar lista de documentos
+    loadDocuments();
+  </script>
+</body>
+</html>

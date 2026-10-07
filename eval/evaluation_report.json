@@ -1,0 +1,228 @@
+{
+  "total_questions": 12,
+  "total_answerable": 8,
+  "total_unanswerable": 4,
+  "rejection_accuracy_pct": 100.0,
+  "source_hit_rate_pct": 62.5,
+  "avg_latency_ms": 2958.76,
+  "results": [
+    {
+      "id": "eval-01",
+      "type": "direct",
+      "question": "¿Qué es EdGPT y cómo se diferencia de los modelos generales de IA generativa?",
+      "can_answer": true,
+      "expected_page": 16,
+      "retrieved_pages": [
+        16,
+        16,
+        12,
+        46,
+        11
+      ],
+      "grounded": true,
+      "hit": true,
+      "correct_rejection": false,
+      "answer_snippet": "EdGPT es un modelo de IA generativa diseñado específicamente para fines educativos. Se considera un \"modelo fundacional\" que se entrena con datos específicos de dominio educativo, a diferencia de los ",
+      "latency_ms": 5143.44
+    },
+    {
+      "id": "eval-02",
+      "type": "direct",
+      "question": "¿Cuáles son los riesgos asociados al uso de la IAGen como entrenador lingüístico 1:1?",
+      "can_answer": true,
+      "expected_page": 36,
+      "retrieved_pages": [
+        36,
+        38,
+        36,
+        36,
+        39
+      ],
+      "grounded": true,
+      "hit": true,
+      "correct_rejection": false,
+      "answer_snippet": "Los riesgos asociados al uso de la IA generativa (IAGen) como entrenador lingüístico 1:1 incluyen:\n\n1. **Lenguaje culturalmente insensible o incorrecto**: Existe la posibilidad de que la IAGen perpetú",
+      "latency_ms": 4159.97
+    },
+    {
+      "id": "eval-03",
+      "type": "direct",
+      "question": "¿Qué recomienda la guía sobre el límite de edad para el uso de conversaciones independientes con IAGen?",
+      "can_answer": true,
+      "expected_page": 48,
+      "retrieved_pages": [
+        24,
+        24,
+        48,
+        24,
+        36
+      ],
+      "grounded": true,
+      "hit": true,
+      "correct_rejection": false,
+      "answer_snippet": "La guía recomienda establecer un límite de edad para las conversaciones independientes con las plataformas de IAGen, sugiriendo que la edad mínima debería ser de 13 años. Sin embargo, también se menci",
+      "latency_ms": 3423.33
+    },
+    {
+      "id": "eval-04",
+      "type": "direct",
+      "question": "¿Cómo apoya la IAGen el rol de docente o tutor 1:1 en programación o aritmética?",
+      "can_answer": true,
+      "expected_page": 36,
+      "retrieved_pages": [
+        36,
+        35,
+        35,
+        35,
+        35
+      ],
+      "grounded": true,
+      "hit": true,
+      "correct_rejection": false,
+      "answer_snippet": "La IAGen apoya el rol de docente o tutor 1:1 en programación o aritmética al proporcionar un aprendizaje autodidacta a ritmo propio, permitiendo a los estudiantes adquirir conocimientos y habilidades ",
+      "latency_ms": 3292.23
+    },
+    {
+      "id": "eval-05",
+      "type": "multi_chunk",
+      "question": "¿Qué controversias éticas y sociales plantea la IAGen según la guía de la UNESCO?",
+      "can_answer": true,
+      "expected_page": 48,
+      "retrieved_pages": [
+        3,
+        10,
+        28,
+        10,
+        3
+      ],
+      "grounded": true,
+      "hit": false,
+      "correct_rejection": false,
+      "answer_snippet": "La guía de la UNESCO identifica varias controversias éticas y sociales en torno a la inteligencia artificial generativa (IAGen). Estas incluyen:\n\n1. **Sesgos en los sistemas de IAGen**: Se destaca la ",
+      "latency_ms": 4353.11
+    },
+    {
+      "id": "eval-06",
+      "type": "multi_chunk",
+      "question": "¿Qué rol deben mantener los docentes humanos frente a las herramientas de IAGen en el aula?",
+      "can_answer": true,
+      "expected_page": 36,
+      "retrieved_pages": [
+        35,
+        29,
+        35,
+        33,
+        28
+      ],
+      "grounded": true,
+      "hit": false,
+      "correct_rejection": false,
+      "answer_snippet": "Los docentes humanos deben mantener un rol activo y de supervisión frente a las herramientas de IAGen en el aula. Es fundamental que comprendan claramente los problemas que se presentan, monitoreen la",
+      "latency_ms": 4388.59
+    },
+    {
+      "id": "eval-07",
+      "type": "multi_chunk",
+      "question": "¿Cuáles son los requisitos y preparación previa que deben tener los estudiantes antes de usar IAGen como entrenador artístico o musical?",
+      "can_answer": true,
+      "expected_page": 36,
+      "retrieved_pages": [
+        36,
+        35,
+        36,
+        35,
+        36
+      ],
+      "grounded": true,
+      "hit": true,
+      "correct_rejection": false,
+      "answer_snippet": "Los estudiantes deben tener metas iniciales para crear arte o música, así como una comprensión fundacional de los elementos clave del ámbito del arte o la música. Además, se requiere que posean habili",
+      "latency_ms": 2562.55
+    },
+    {
+      "id": "eval-08",
+      "type": "multi_chunk",
+      "question": "¿Por qué es riesgoso depender exclusivamente de la IAGen para la retroalimentación de código según el documento?",
+      "can_answer": true,
+      "expected_page": 36,
+      "retrieved_pages": [
+        25,
+        15,
+        25,
+        30,
+        33
+      ],
+      "grounded": true,
+      "hit": false,
+      "correct_rejection": false,
+      "answer_snippet": "Depender exclusivamente de la IAGen para la retroalimentación de código es riesgoso debido a varias razones destacadas en el documento. En primer lugar, aunque la IAGen puede generar resultados útiles",
+      "latency_ms": 3198.57
+    },
+    {
+      "id": "eval-09",
+      "type": "unanswerable",
+      "question": "¿Cuál es el presupuesto en dólares asignado por el gobierno peruano para la compra de licencias de ChatGPT en 2025?",
+      "can_answer": false,
+      "expected_page": null,
+      "retrieved_pages": [
+        13,
+        21,
+        44,
+        44,
+        43
+      ],
+      "grounded": true,
+      "hit": false,
+      "correct_rejection": true,
+      "answer_snippet": "La información provista en los documentos no contiene datos suficientes para responder a esta pregunta.",
+      "latency_ms": 1494.39
+    },
+    {
+      "id": "eval-10",
+      "type": "unanswerable",
+      "question": "¿Cuál es la fórmula matemática exacta del algoritmo de retropropagación (backpropagation)?",
+      "can_answer": false,
+      "expected_page": null,
+      "retrieved_pages": [
+        18
+      ],
+      "grounded": true,
+      "hit": false,
+      "correct_rejection": true,
+      "answer_snippet": "La información provista en los documentos no contiene datos suficientes para responder a esta pregunta.",
+      "latency_ms": 1476.97
+    },
+    {
+      "id": "eval-11",
+      "type": "unanswerable",
+      "question": "¿Cuántas calorías tiene un plato típico de comida peruana como el lomo saltado?",
+      "can_answer": false,
+      "expected_page": null,
+      "retrieved_pages": [],
+      "grounded": false,
+      "hit": false,
+      "correct_rejection": true,
+      "answer_snippet": "La información provista en los documentos no contiene datos suficientes para responder a esta pregunta con certeza.",
+      "latency_ms": 394.43
+    },
+    {
+      "id": "eval-12",
+      "type": "unanswerable",
+      "question": "¿Qué versión de Python y PostgreSQL se utilizó para crear la arquitectura de este asistente?",
+      "can_answer": false,
+      "expected_page": null,
+      "retrieved_pages": [
+        46,
+        13,
+        12,
+        13,
+        12
+      ],
+      "grounded": true,
+      "hit": false,
+      "correct_rejection": true,
+      "answer_snippet": "La información provista en los documentos no contiene datos suficientes para responder a esta pregunta.",
+      "latency_ms": 1617.51
+    }
+  ]
+}

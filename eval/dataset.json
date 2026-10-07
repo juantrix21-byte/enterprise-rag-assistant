@@ -1,0 +1,110 @@
+[
+  {
+    "id": "eval-01",
+    "type": "direct",
+    "question": "¿Qué es EdGPT y cómo se diferencia de los modelos generales de IA generativa?",
+    "can_answer": true,
+    "expected_page": 16,
+    "expected_source": "unesco_guia_iagen_educacion.pdf",
+    "expected_answer_summary": "EdGPT son modelos fundacionales entrenados o ajustados con datos específicos para fines educativos, refinando modelos generales a un dominio educativo de alta calidad."
+  },
+  {
+    "id": "eval-02",
+    "type": "direct",
+    "question": "¿Cuáles son los riesgos asociados al uso de la IAGen como entrenador lingüístico 1:1?",
+    "can_answer": true,
+    "expected_page": 36,
+    "expected_source": "unesco_guia_iagen_educacion.pdf",
+    "expected_answer_summary": "Lenguaje culturalmente insensible o contextualmente incorrecto, sesgos culturales, limitación de la creatividad y redacción formulista."
+  },
+  {
+    "id": "eval-03",
+    "type": "direct",
+    "question": "¿Qué recomienda la guía sobre el límite de edad para el uso de conversaciones independientes con IAGen?",
+    "can_answer": true,
+    "expected_page": 48,
+    "expected_source": "unesco_guia_iagen_educacion.pdf",
+    "expected_answer_summary": "Recomienda establecer un límite de edad para las conversaciones independientes con plataformas de IAGen para salvaguardar el bienestar de los menores."
+  },
+  {
+    "id": "eval-04",
+    "type": "direct",
+    "question": "¿Cómo apoya la IAGen el rol de docente o tutor 1:1 en programación o aritmética?",
+    "can_answer": true,
+    "expected_page": 36,
+    "expected_source": "unesco_guia_iagen_educacion.pdf",
+    "expected_answer_summary": "Apoya el aprendizaje a ritmo propio de conocimientos básicos de codificación, detección de errores y retroalimentación inmediata."
+  },
+  {
+    "id": "eval-05",
+    "type": "multi_chunk",
+    "question": "¿Qué controversias éticas y sociales plantea la IAGen según la guía de la UNESCO?",
+    "can_answer": true,
+    "expected_page": 48,
+    "expected_source": "unesco_guia_iagen_educacion.pdf",
+    "expected_answer_summary": "Empeoramiento de la pobreza digital, homogeneización de opiniones, deepfakes, derechos de autor y protección de la privacidad de los datos."
+  },
+  {
+    "id": "eval-06",
+    "type": "multi_chunk",
+    "question": "¿Qué rol deben mantener los docentes humanos frente a las herramientas de IAGen en el aula?",
+    "can_answer": true,
+    "expected_page": 36,
+    "expected_source": "unesco_guia_iagen_educacion.pdf",
+    "expected_answer_summary": "Un enfoque humano-agente, guiando a los estudiantes, fomentando la imaginación, pensamiento crítico y análisis ético que la IA no puede reemplazar."
+  },
+  {
+    "id": "eval-07",
+    "type": "multi_chunk",
+    "question": "¿Cuáles son los requisitos y preparación previa que deben tener los estudiantes antes de usar IAGen como entrenador artístico o musical?",
+    "can_answer": true,
+    "expected_page": 36,
+    "expected_source": "unesco_guia_iagen_educacion.pdf",
+    "expected_answer_summary": "Metas iniciales para crear arte o música, comprensión básica de elementos clave del arte y habilidades elementales para analizar obras."
+  },
+  {
+    "id": "eval-08",
+    "type": "multi_chunk",
+    "question": "¿Por qué es riesgoso depender exclusivamente de la IAGen para la retroalimentación de código según el documento?",
+    "can_answer": true,
+    "expected_page": 36,
+    "expected_source": "unesco_guia_iagen_educacion.pdf",
+    "expected_answer_summary": "Porque la precisión de la retroalimentación sigue siendo problemática (la IA no siempre está en lo cierto) y puede impedir desarrollar pensamiento computacional profundo."
+  },
+  {
+    "id": "eval-09",
+    "type": "unanswerable",
+    "question": "¿Cuál es el presupuesto en dólares asignado por el gobierno peruano para la compra de licencias de ChatGPT en 2025?",
+    "can_answer": false,
+    "expected_page": null,
+    "expected_source": null,
+    "expected_answer_summary": "El documento no contiene datos sobre presupuestos gubernamentales de Perú para licencias de software."
+  },
+  {
+    "id": "eval-10",
+    "type": "unanswerable",
+    "question": "¿Cuál es la fórmula matemática exacta del algoritmo de retropropagación (backpropagation)?",
+    "can_answer": false,
+    "expected_page": null,
+    "expected_source": null,
+    "expected_answer_summary": "La guía pedagógica de la UNESCO no detalla derivaciones matemáticas de algoritmos de optimización."
+  },
+  {
+    "id": "eval-11",
+    "type": "unanswerable",
+    "question": "¿Cuántas calorías tiene un plato típico de comida peruana como el lomo saltado?",
+    "can_answer": false,
+    "expected_page": null,
+    "expected_source": null,
+    "expected_answer_summary": "Tema totalmente ajeno al documento de la UNESCO."
+  },
+  {
+    "id": "eval-12",
+    "type": "unanswerable",
+    "question": "¿Qué versión de Python y PostgreSQL se utilizó para crear la arquitectura de este asistente?",
+    "can_answer": false,
+    "expected_page": null,
+    "expected_source": null,
+    "expected_answer_summary": "El documento de la UNESCO no habla de la arquitectura técnica interna de este software."
+  }
+]
