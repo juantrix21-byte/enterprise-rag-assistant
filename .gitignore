@@ -8,3 +8,5 @@ venv/
 *.egg-info/
 uploads/
 eval/results/
+*GUIA_DEFENSA*
+*generate_defense_guide*
